@@ -9,16 +9,29 @@ const jwt = require("jsonwebtoken");
 
 /* post users */
 router.post("/register", (req, res, next) => {
-  const { username, password } = req.body;
+  const { fullname, username, password, repeat_password } = req.body;
+  // if username or password or repeat_password is empty then returns 0 back
+  if (!username || !password || !repeat_password) {
+    res.json({ status: false, message: "username or password is empty" });
+    return 0;
+  }
+  // check for password
+  if (password != repeat_password) {
+    res.json({
+      status: false,
+      message: "password and repeat_password are not match"
+    });
 
+    return 0;
+  }
   // password hashing
   bcrypt.hash(password, 10).then((hash) => {
     // inserting into db
-    const user = new User({ username, password: hash });
+    const user = new User({ fullname, username, password: hash });
     const promise = user.save();
     promise
       .then((data) => {
-        res.json({ status: "ok", "status code": res.statusCode });
+        res.json({ status: true, "status-code": res.statusCode });
       })
       .catch((err) => {
         res.json(err);
@@ -29,6 +42,12 @@ router.post("/register", (req, res, next) => {
 /* post authenticate */
 router.post("/authenticate", (req, res) => {
   const { username, password } = req.body;
+  // if username or password is empty then returns 0 back
+  if (!username || !password) {
+    res.json({ status: false, message: "username or password is empty" });
+    return 0;
+  }
+
   // find the user from db
   User.findOne({ username }, (err, user) => {
     if (err) throw err;
@@ -41,9 +60,8 @@ router.post("/authenticate", (req, res) => {
         } else {
           const payload = { username };
           const token = jwt.sign(payload, req.app.get("api_secret_key"), {
-            expiresIn: 720,
+            expiresIn: 720
           });
-
           res.json({
             status: true,
             token
