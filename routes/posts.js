@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-// import content schema
-const Content = require("../models/Content");
+/* POST Model */
+const Post = require("../models/Post");
 
-/* GET contents */
+/* GET Posts from POST. */
 router.get("/", (req, res, next) => {
-  const promise = Content.find({});
+  const promise = Post.find({});
   promise
     .then((data) => {
       res.json(data);
@@ -16,15 +16,22 @@ router.get("/", (req, res, next) => {
     });
 });
 
-/* add new content */
+/* POST Share a post */
 router.post("/new", (req, res) => {
-  const content = new Content(req.body);
-  const promise = content.save();
+  const { postHeader, postDescription } = req.body;
+  const username = req.decode.username;
+
+  const post = new Post({
+    username,
+    postHeader,
+    postDescription
+  });
+  const promise = post.save();
   promise
     .then((data) => {
       res.json({
-          "status" : "ok",
-          "status-code" : res.statusCode
+        status: true,
+        "status-code": res.statusCode
       });
     })
     .catch((err) => {

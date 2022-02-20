@@ -11,10 +11,11 @@
 ## Users
 | Route | HTTP Verb	 | POST body	 | Description	 |
 | --- | --- | --- | --- |
-| /api/v1/users/register/ | `POST` | {'username':'foo', 'password':'bar', 'repeat_password':'bar} | Register a new user. |
-| /api/v1/users/authenticate/ | `POST` | {'username':'foo', 'password':'bar'} | Authenticate a new user. |
+| /api/v1/users/register/ | `POST` | {'fullname':'foo bar', 'username':'foo', 'password':'bar', 'repeat_password':'bar} | Register a new user. |
+| /api/v1/users/authenticate/ | `POST` | {'username':'foo', 'password':'bar'} | Authenticate a user. |
 
 ## Posts
 | Route | HTTP Verb	 | POST body	 | Description	 |
 | --- | --- | --- | --- |
 | /auth/api/v1/posts/ | `GET` | Empty | List all posts. |
+| /auth/api/v1/posts/new | `POST` | {'username':'foo', postHeader:'bar', postDescription:'some description'} | Share a post. |

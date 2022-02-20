@@ -1,25 +1,20 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema({
-    fullname: {
+const PostSchema = new Schema({
+    username: {
+        type: String,
+        required: true
+    },
+    postHeader: {
+        type: String,
+        required: true,
+    },
+    postDescription: {
         type: String,
         required: false
     },
-    username: {
-        type: String,
-        unique: true,
-        required: true
-    },
-    password: {
-        type: String,
-        minlength: 5,
-        required: true
-    },
-    repeat_password: {
-        type: String,
-        minlength: 5
-    },
+    likes: Number,
     deleted: Boolean,
     createdAt: {
         type: Date,
@@ -31,4 +26,4 @@ const UserSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('user', UserSchema)
+module.exports = mongoose.model('post', PostSchema)

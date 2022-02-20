@@ -58,6 +58,7 @@ router.post("/authenticate", (req, res) => {
         if (!result) {
           res.json({ status: "false", error: "user not authenticated" });
         } else {
+          // const payload = { username };
           const payload = { username };
           const token = jwt.sign(payload, req.app.get("api_secret_key"), {
             expiresIn: 720

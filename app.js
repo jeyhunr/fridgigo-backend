@@ -8,6 +8,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const contentsRouter = require('./routes/contents');
 const verifyToken = require('./middleware/verify-token');
+const postRouter = require('./routes/posts');
 
 const app = express();
 
@@ -28,9 +29,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/auth/', verifyToken);
+app.use('/auth/', verifyToken); // middleware
 app.use('/api/v1/users', usersRouter);
 app.use('/auth/api/v1/contents', contentsRouter);
+app.use('/auth/api/v1/posts', postRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
