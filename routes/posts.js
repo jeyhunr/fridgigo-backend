@@ -9,10 +9,10 @@ router.get("/", (req, res, next) => {
   const promise = Post.find({});
   promise
     .then((data) => {
-      res.json(data);
+      res.json({ status: true, posts: data });
     })
     .catch((err) => {
-      res.json(err);
+      res.json({ status: false, posts: err });
     });
 });
 
