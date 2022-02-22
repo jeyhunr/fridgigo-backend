@@ -6,7 +6,7 @@ const Post = require("../models/Post");
 
 /* GET Posts from POST. */
 router.get("/", (req, res, next) => {
-  const promise = Post.find({});
+  const promise = Post.find({}).sort({ createdAt: -1 });
   promise
     .then((data) => {
       res.json({ status: true, posts: data });
@@ -36,6 +36,25 @@ router.post("/new", (req, res) => {
     })
     .catch((err) => {
       res.json(err);
+    });
+});
+
+/* PUT update likes */
+router.put("/like/:post_id", (req, res) => {
+  const promise = Post.findByIdAndUpdate(req.params.post_id, req.body, {
+    likes: 1
+  });
+
+  promise
+    .then((post) => {
+      if (!post) {
+        res.json({ status: false, message: "post does not found"});
+      }
+
+      res.json({status: true, post});
+    })
+    .catch((err) => {
+      res.json({status: false, err});
     });
 });
 
