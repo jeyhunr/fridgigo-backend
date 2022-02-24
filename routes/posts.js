@@ -61,7 +61,6 @@ router.put("/like/:post_id", (req, res) => {
 /* GET user's posts */
 router.get("/user/:username", (req, res) => {
   //  qty: { $gt: 4 } } 
-  console.log(req.params)
   const promise = Post.find(req.params).sort({ createdAt: -1 });
   promise
     .then((data) => {
