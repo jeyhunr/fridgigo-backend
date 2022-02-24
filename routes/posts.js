@@ -58,4 +58,18 @@ router.put("/like/:post_id", (req, res) => {
     });
 });
 
+/* GET user's posts */
+router.get("/user/:username", (req, res) => {
+  //  qty: { $gt: 4 } } 
+  console.log(req.params)
+  const promise = Post.find(req.params).sort({ createdAt: -1 });
+  promise
+    .then((data) => {
+      res.json({ status: true, posts: data });
+    })
+    .catch((err) => {
+      res.json({ status: false, posts: err });
+    });
+});
+
 module.exports = router;

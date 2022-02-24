@@ -19,3 +19,5 @@
 | --- | --- | --- | --- |
 | /auth/api/v1/posts/ | `GET` | Empty | List all posts. |
 | /auth/api/v1/posts/new | `POST` | {'username':'foo', postHeader:'bar', postDescription:'some description'} | Share a post. |
+| /auth/api/v1/posts/like/:post_id | `PUT` | {token:'foo', likes: 5} | Update a count of likes. |
+| /auth/api/v1/posts/user/:username | `GET` | Epmty | Get posts of a user. |
