@@ -7,10 +7,14 @@ const Like = require("../models/Like");
 /* GET get like */
 router.get("/", (req, res) => {
   const { username, post_id } = req.body;
-  const promise = Like.find({}, { username: username, post_id: post_id });
+  const promise = Like.find({ username: username, post_id: post_id });
   promise
     .then((data) => {
-      res.json({ status: true, like: data });
+      if (data != "") {
+        res.json({ status: true, message: "this user liked this post" });
+      } else {
+        res.json({ status: false, message: "user did not like this post" });
+      }
     })
     .catch((err) => {
       res.json({ status: false, like: err });
