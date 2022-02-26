@@ -47,7 +47,7 @@ router.delete("/dislike-post/:obj_id", (req, res) => {
   promise
     .then((like) => {
       if (!like) {
-        res.json({ statur: false, message: "This post can't be dislike." });
+        res.json({ status: false, message: "This post can't be dislike." });
         return 0;
       }
 
