@@ -27,4 +27,4 @@
 | --- | --- | --- | --- |
 | /auth/api/v1/likes/ | `GET` | {token:'foo-bar',username:'foo', post_id:'bar'} | Get like. |
 | /auth/api/v1/likes/like-post | `POST` | {token:'foo-bar',username:'foo', post_id:'bar'} | Like a post. |
-| /auth/api/v1/likes/dislike-post/:obj_id | `DELETE` | {token:'foo-bar'} | Dislike a post. |
+| /auth/api/v1/likes/dislike-post/obj_id | `DELETE` | {token:'foo-bar'} | Like a post. |

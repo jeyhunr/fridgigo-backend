@@ -11,20 +11,19 @@ router.get("/", (req, res) => {
   promise
     .then((data) => {
       if (data != "") {
-        res.json({ status: true, message: "this user liked this post" });
+        res.json({ status: true, object_id: data[0]._id });
       } else {
         res.json({ status: false, message: "user did not like this post" });
       }
     })
     .catch((err) => {
-      res.json({ status: false, like: err });
+      res.json({ status: false, error: err });
     });
 });
 
 /* POST like a post */
 router.post("/like-post", (req, res) => {
   const { username, post_id } = req.body;
-
   const like = new Like({
     username,
     post_id
@@ -34,7 +33,7 @@ router.post("/like-post", (req, res) => {
     .then((data) => {
       res.json({
         status: true,
-        "status-code": res.statusCode
+        message: "Liked successfully"
       });
     })
     .catch((err) => {
@@ -45,7 +44,6 @@ router.post("/like-post", (req, res) => {
 /* POST dislike a post */
 router.delete("/dislike-post/:obj_id", (req, res) => {
   const promise = Like.findByIdAndRemove(req.params.obj_id);
-
   promise
     .then((like) => {
       if (!like) {
