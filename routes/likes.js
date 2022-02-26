@@ -33,8 +33,9 @@ router.post("/like-post", (req, res) => {
     .then((data) => {
       res.json({
         status: true,
-        message: "Liked successfully"
-      });
+        message: "Liked successfully",
+        object_id: data._id
+      })
     })
     .catch((err) => {
       res.json({ status: false, error: err });
