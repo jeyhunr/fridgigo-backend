@@ -19,12 +19,4 @@
 | --- | --- | --- | --- |
 | /auth/api/v1/posts/ | `GET` | Empty | List all posts. |
 | /auth/api/v1/posts/new | `POST` | {'username':'foo', postHeader:'bar', postDescription:'some description'} | Share a post. |
-| /auth/api/v1/posts/like/:post_id | `PUT` | {token:'foo', likes: 5} | Update a count of likes. |
 | /auth/api/v1/posts/user/:username | `GET` | Epmty | Get posts of a user. |
-
-## Likes
-| Route | HTTP Verb	 | POST body	 | Description	 |
-| --- | --- | --- | --- |
-| /auth/api/v1/likes/ | `GET` | {token:'foo-bar',username:'foo', post_id:'bar'} | Get like. |
-| /auth/api/v1/likes/like-post | `POST` | {token:'foo-bar',username:'foo', post_id:'bar'} | Like a post. |
-| /auth/api/v1/likes/dislike-post/obj_id | `DELETE` | {token:'foo-bar'} | Like a post. |

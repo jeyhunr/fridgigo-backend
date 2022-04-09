@@ -17,7 +17,7 @@ module.exports = (req, res, next) => {
   } else {
     res.json({
       status: false,
-      message: "No token provided."
+      message: "Error: No token provided."
     });
   }
 };

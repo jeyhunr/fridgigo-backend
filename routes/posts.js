@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const jwt = require("jsonwebtoken");
+
 
 /* POST Model */
 const Post = require("../models/Post");
@@ -40,6 +42,7 @@ router.post("/new", (req, res) => {
 });
 
 /* PUT update likes */
+/*
 router.put("/like/:post_id", (req, res) => {
   const promise = Post.findByIdAndUpdate(req.params.post_id, req.body, {
     likes: 1
@@ -56,6 +59,17 @@ router.put("/like/:post_id", (req, res) => {
     .catch((err) => {
       res.json({status: false, err});
     });
+});
+*/
+
+/* GET my posts */
+router.get("/user/my-posts", (req, res) => {
+  let token = req.body.token;
+
+  res.json({
+    status: true,
+    posts: "Hello this is my first post"
+  })
 });
 
 /* GET user's posts */

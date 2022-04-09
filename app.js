@@ -9,7 +9,7 @@ const usersRouter = require('./routes/users');
 const contentsRouter = require('./routes/contents');
 const verifyToken = require('./middleware/verify-token');
 const postRouter = require('./routes/posts');
-const likeRouter = require('./routes/likes');
+// const likeRouter = require('./routes/likes');
 
 const app = express();
 
@@ -30,11 +30,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/api/v1/contents', contentsRouter);
 app.use('/auth/', verifyToken); // middleware
 app.use('/api/v1/users', usersRouter);
-app.use('/auth/api/v1/contents', contentsRouter);
 app.use('/auth/api/v1/posts', postRouter);
-app.use('/auth/api/v1/likes', likeRouter);
+// app.use('/auth/api/v1/likes', likeRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
