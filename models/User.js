@@ -6,7 +6,7 @@ const UserSchema = new Schema({
         type: String,
         required: false
     },
-    username: {
+    email: {
         type: String,
         unique: true,
         required: true
@@ -28,6 +28,11 @@ const UserSchema = new Schema({
     updatedAt: {
         type: Date,
         default: Date.now
+    },
+    confirmationNumber: Number,
+    confirmed: {
+        type: Boolean,
+        default: false
     }
 });
 

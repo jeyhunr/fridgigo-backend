@@ -11,7 +11,7 @@ describe("Posts test", () => {
     chai
       .request(server)
       .post("/api/v1/users/authenticate")
-      .send({ username: "jeyhun", password: "12345" })
+      .send({ email: "jeyhun", password: "12345" })
       .end((err, res) => {
         if (err) throw err;
         token = res.body.token;

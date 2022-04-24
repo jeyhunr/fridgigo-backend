@@ -11,12 +11,13 @@
 ## Users
 | Route | HTTP Verb	 | POST body	 | Description	 |
 | --- | --- | --- | --- |
-| /api/v1/users/register/ | `POST` | {'fullname':'foo bar', 'username':'foo', 'password':'bar', 'repeat_password':'bar} | Register a new user. |
-| /api/v1/users/authenticate/ | `POST` | {'username':'foo', 'password':'bar'} | Authenticate a user. |
+| /api/v1/users/register/ | `POST` | {'fullname':'foo bar', 'email':'foo', 'password':'bar', 'repeat_password':'bar} | Register a new user. |
+| /api/v1/users/confirm-user/ | `PUT` | {'email':'foo', 'confitmationNumber':'bar'} | Cofirm user registration. |
+| /api/v1/users/authenticate/ | `POST` | {'email':'foo', 'password':'bar'} | Authenticate a user. |
 
 ## Posts
 | Route | HTTP Verb	 | POST body	 | Description	 |
 | --- | --- | --- | --- |
 | /auth/api/v1/posts/ | `GET` | Empty | List all posts. |
-| /auth/api/v1/posts/new | `POST` | {'username':'foo', postHeader:'bar', postDescription:'some description'} | Share a post. |
-| /auth/api/v1/posts/user/:username | `GET` | Epmty | Get posts of a user. |
+| /auth/api/v1/posts/new | `POST` | {'email':'foo', postHeader:'bar', postDescription:'some description'} | Share a post. |
+| /auth/api/v1/posts/user/:email | `GET` | Epmty | Get posts of a user. |

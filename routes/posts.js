@@ -21,10 +21,10 @@ router.get("/", (req, res, next) => {
 /* POST Share a post */
 router.post("/new", (req, res) => {
   const { postHeader, postDescription } = req.body;
-  const username = req.decode.username;
+  const email = req.decode.email;
 
   const post = new Post({
-    username,
+    email,
     postHeader,
     postDescription
   });
@@ -41,28 +41,9 @@ router.post("/new", (req, res) => {
     });
 });
 
-/* PUT update likes */
-/*
-router.put("/like/:post_id", (req, res) => {
-  const promise = Post.findByIdAndUpdate(req.params.post_id, req.body, {
-    likes: 1
-  });
-
-  promise
-    .then((post) => {
-      if (!post) {
-        res.json({ status: false, message: "post does not found"});
-      }
-
-      res.json({status: true, post});
-    })
-    .catch((err) => {
-      res.json({status: false, err});
-    });
-});
-*/
-
-/* GET my posts */
+/* GET my posts
+*  must be fixed
+*/ 
 router.get("/user/my-posts", (req, res) => {
   let token = req.body.token;
 
@@ -73,7 +54,7 @@ router.get("/user/my-posts", (req, res) => {
 });
 
 /* GET user's posts */
-router.get("/user/:username", (req, res) => {
+router.get("/user/:email", (req, res) => {
   //  qty: { $gt: 4 } } 
   const promise = Post.find(req.params).sort({ createdAt: -1 });
   promise

@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "start:dev": "nodemon ./bin/www",
+    "start": "nodemon ./bin/www",
+    "start:product": "node ./bin/www",
     "test": "npx mocha --exit -recursive"
   },
   "dependencies": {
@@ -17,7 +17,8 @@
     "jade": "~1.11.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.2",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "nodemailer": "^6.7.3"
   },
   "devDependencies": {
     "chai": "^4.3.6",
