@@ -14,9 +14,9 @@ let requestConfirmation = (to, subject, html) => {
   });
   
   const mailOptions = {
-    from: "FridgiGo Team <noreply@fridgigo.com>",
+    from: "fridgiGO Team <noreply@fridgigo.com>",
     to: to,
-    sender: "FrigiGo Team",
+    sender: "frigiGO Team",
     subject: subject,
     html: html
   };

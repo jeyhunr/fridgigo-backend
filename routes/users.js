@@ -106,7 +106,7 @@ router.put("/confirm-user", (req, res) => {
   User.findOne({ email }, (err, user) => {
     if (err) throw err;
     if (user.confirmationNumber == confirmationNumber) {
-      const promise = User.findOneAndUpdate(email, {
+      const promise = User.findByIdAndUpdate(user.id, {
         confirmed: true
       });
       promise
@@ -114,13 +114,113 @@ router.put("/confirm-user", (req, res) => {
           if (!user) {
             res.json({ status: false, message: "user does not found" });
           }
-          res.json({ status: true, message: "User confirmation was successfully" });
+          let emailBody = `
+          <center><b>Welcome to fridgiGO</b></center>
+          <br>
+          <center>Your account was created.</center>
+        `;
+          mail(email, "Account confirmation", emailBody);
+          res.json({
+            status: true,
+            message: "Your accound was successfully created"
+          });
         })
         .catch((err) => {
           res.json({ status: false, err });
         });
     } else {
-      res.json({ status: false, message: "confirmation number is wrong"})
+      res.json({ status: false, message: "confirmation number is wrong" });
+    }
+  });
+});
+
+/* password forget */
+router.put("/request-password", (req, res) => {
+  const { email } = req.body;
+  // check for user, if user exists in db
+  User.findOne({ email }, (err, user) => {
+    if (err) throw err;
+    if (user) {
+      // generate a confirmation number and send an email
+      let confirmNum = random(10000, 99999);
+      let emailBody = `
+          <center><b>Confirmation number</b></center>
+          <br>
+          <center><b>${confirmNum}</b></center>
+        `;
+      mail(email, "Password Forget", emailBody);
+
+      const promise = User.findByIdAndUpdate(user.id, {
+        confirmationNumber: confirmNum
+      });
+      promise
+        .then((user) => {
+          if (!user) {
+            res.json({ status: false, message: "user does not found" });
+          }
+          res.json({
+            status: true,
+            message: "The user confirmation number was sent successfully"
+          });
+        })
+        .catch((err) => {
+          res.json({ status: false, err });
+        });
+    } else {
+      res.json({ status: false, message: "User not found" });
+      return;
+    }
+  });
+});
+
+/* change password */
+router.put("/change-password", (req, res) => {
+  const { email, confirmationNumber, password, repeat_password } = req.body;
+  // check for user, if user exists in db
+  User.findOne({ email }, (err, user) => {
+    if (err) throw err;
+    if (user) {
+      if (password == repeat_password) {
+        console.log(user.confirmationNumber);
+        if (user.confirmationNumber == confirmationNumber) {
+          let emailBody = `
+          <center><b>Welcome to fridgiGO</b></center>
+          <br>
+          <center>Your password was successfully changed.</center>
+        `;
+          mail(email, "Password update confirmation", emailBody);
+
+          // password hashing
+          bcrypt.hash(password, 10).then((hash) => {
+            // update in db
+            const promise = User.findByIdAndUpdate(user.id, {
+              password: hash
+            });
+            promise
+              .then((user) => {
+                if (!user) {
+                  res.json({ status: false, message: "user does not found" });
+                }
+                res.json({
+                  status: true,
+                  message: "Password was changed."
+                });
+              })
+              .catch((err) => {
+                res.json({ status: false, err });
+              });
+          });
+        } else {
+          res.json({ status: false, message: "confirmation number wrong" });
+        }
+      } else {
+        res.json({
+          status: false,
+          message: "Password and repeat_password does not match"
+        });
+      }
+    } else {
+      res.json({ status: false, message: "something went wrong" });
     }
   });
 });

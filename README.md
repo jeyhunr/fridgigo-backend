@@ -14,6 +14,8 @@
 | /api/v1/users/register/ | `POST` | {'fullname':'foo bar', 'email':'foo', 'password':'bar', 'repeat_password':'bar} | Register a new user. |
 | /api/v1/users/confirm-user/ | `PUT` | {'email':'foo', 'confitmationNumber':'bar'} | Cofirm user registration. |
 | /api/v1/users/authenticate/ | `POST` | {'email':'foo', 'password':'bar'} | Authenticate a user. |
+| /api/v1/users/request-password/ | `PUT` | {'email':'foo'} | Password forget. |
+| /api/v1/users/change-password/ | `PUT` | {'email':'foo', 'password':'bar', 'repeat_password':'bar', 'confirmationNumber':'foo'} | Password forget. |
 
 ## Posts
 | Route | HTTP Verb	 | POST body	 | Description	 |
