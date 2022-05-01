@@ -1,5 +1,7 @@
 # Frindgigo backend app
 
+***Full User sign in and sing up API services.***
+
 # Enpoints
 
 ## Contents
