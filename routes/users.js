@@ -35,9 +35,15 @@ router.post("/register", (req, res, next) => {
       // generate a confirmation number and send an email
       let confirmNum = random(10000, 99999);
       let emailBody = `
-        <center><b>Confirmation number</b></center>
+        Dear ${fullname},
+        <br> <br>
+        welcome to fridgiGO.
+        <br> <br>
+        Your confirmation number is <b>${confirmNum}</b>.
+        <br> <br>
+        Best regards,
         <br>
-        <center><b>${confirmNum}</b></center>
+        fridgiGO Team
       `;
       mail(email, "Register Confirmation", emailBody);
 
@@ -77,7 +83,7 @@ router.post("/authenticate", (req, res) => {
   // find the user from db
   User.findOne({ email }, (err, user) => {
     if (err) throw err;
-    if (!user) {
+    if (!user || !user.confirmed) {
       res.json({ status: "false", error: "user not authenticated" });
     } else {
       bcrypt.compare(password, user.password).then((result) => {
@@ -115,10 +121,16 @@ router.put("/confirm-user", (req, res) => {
             res.json({ status: false, message: "user does not found" });
           }
           let emailBody = `
-          <center><b>Welcome to fridgiGO</b></center>
+          Dear ${user.fullname},
+          <br> <br>
+          thank you for registration.
+          <br> <br>
+          Your account has been verified.
+          <br> <br>
+          Best regards,
           <br>
-          <center>Your account was created.</center>
-        `;
+          fridgiGO Team
+         `;
           mail(email, "Account confirmation", emailBody);
           res.json({
             status: true,
@@ -140,14 +152,18 @@ router.put("/request-password", (req, res) => {
   // check for user, if user exists in db
   User.findOne({ email }, (err, user) => {
     if (err) throw err;
-    if (user) {
+    if (user && user.confirmed) {
       // generate a confirmation number and send an email
       let confirmNum = random(10000, 99999);
       let emailBody = `
-          <center><b>Confirmation number</b></center>
-          <br>
-          <center><b>${confirmNum}</b></center>
-        `;
+        Dear ${user.fullname},
+        <br> <br>
+        your confirmation number ist <b>${confirmNum}</b>.
+        <br> <br>
+        Best regards,
+        <br>
+        fridgiGO Team
+      `;
       mail(email, "Password Forget", emailBody);
 
       const promise = User.findByIdAndUpdate(user.id, {
@@ -176,53 +192,63 @@ router.put("/request-password", (req, res) => {
 /* change password */
 router.put("/change-password", (req, res) => {
   const { email, confirmationNumber, password, repeat_password } = req.body;
-  // check for user, if user exists in db
-  User.findOne({ email }, (err, user) => {
-    if (err) throw err;
-    if (user) {
-      if (password == repeat_password) {
-        console.log(user.confirmationNumber);
-        if (user.confirmationNumber == confirmationNumber) {
-          let emailBody = `
-          <center><b>Welcome to fridgiGO</b></center>
-          <br>
-          <center>Your password was successfully changed.</center>
-        `;
-          mail(email, "Password update confirmation", emailBody);
+  if (!password || !repeat_password || password != repeat_password) {
+    res.json({
+      status: false,
+      message: "Password and Repeat password does not match."
+    });
+  } else {
+    // check for user, if user exists in db
+    User.findOne({ email }, (err, user) => {
+      if (err) throw err;
+      if (user && user.confirmed) {
+        if (password == repeat_password) {
+          if (user.confirmationNumber == confirmationNumber) {
+            let emailBody = `
+            Dear ${user.fullname},
+            <br> <br>
+            Your password has been changed.
+            <br> <br>
+            Best regards,
+            <br>
+            fridgiGO Team
+          `;
+            mail(email, "Password update confirmation", emailBody);
 
-          // password hashing
-          bcrypt.hash(password, 10).then((hash) => {
-            // update in db
-            const promise = User.findByIdAndUpdate(user.id, {
-              password: hash
-            });
-            promise
-              .then((user) => {
-                if (!user) {
-                  res.json({ status: false, message: "user does not found" });
-                }
-                res.json({
-                  status: true,
-                  message: "Password was changed."
-                });
-              })
-              .catch((err) => {
-                res.json({ status: false, err });
+            // password hashing
+            bcrypt.hash(password, 10).then((hash) => {
+              // update in db
+              const promise = User.findByIdAndUpdate(user.id, {
+                password: hash
               });
-          });
+              promise
+                .then((user) => {
+                  if (!user) {
+                    res.json({ status: false, message: "user does not found" });
+                  }
+                  res.json({
+                    status: true,
+                    message: "Password was changed."
+                  });
+                })
+                .catch((err) => {
+                  res.json({ status: false, err });
+                });
+            });
+          } else {
+            res.json({ status: false, message: "confirmation number wrong" });
+          }
         } else {
-          res.json({ status: false, message: "confirmation number wrong" });
+          res.json({
+            status: false,
+            message: "Password and repeat_password does not match"
+          });
         }
       } else {
-        res.json({
-          status: false,
-          message: "Password and repeat_password does not match"
-        });
+        res.json({ status: false, message: "something went wrong" });
       }
-    } else {
-      res.json({ status: false, message: "something went wrong" });
-    }
-  });
+    });
+  }
 });
 
 module.exports = router;

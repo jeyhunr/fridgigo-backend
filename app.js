@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const cors = require('cors');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -12,6 +13,12 @@ const postRouter = require('./routes/posts');
 // const likeRouter = require('./routes/likes');
 
 const app = express();
+
+// cors settings
+const corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200
+}
 
 // imort db
 const db = require('./helper/db')();
@@ -32,7 +39,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/api/v1/contents', contentsRouter);
 app.use('/auth/', verifyToken); // middleware
-app.use('/api/v1/users', usersRouter);
+app.use('/api/v1/users', cors(corsOptions), usersRouter);
 app.use('/auth/api/v1/posts', postRouter);
 // app.use('/auth/api/v1/likes', likeRouter);
 
