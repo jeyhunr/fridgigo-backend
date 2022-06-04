@@ -23,7 +23,7 @@ router.post("/register", (req, res, next) => {
   if (password != repeat_password) {
     res.json({
       status: false,
-      message: "password and repeat_password are not match"
+      message: "password and repeat_password are not match",
     });
     return 0;
   }
@@ -54,7 +54,7 @@ router.post("/register", (req, res, next) => {
           fullname,
           email,
           password: hash,
-          confirmationNumber: confirmNum
+          confirmationNumber: confirmNum,
         });
         const promise = user.save();
         promise
@@ -93,11 +93,11 @@ router.post("/authenticate", (req, res) => {
           // const payload = { email };
           const payload = { email };
           const token = jwt.sign(payload, req.app.get("api_secret_key"), {
-            expiresIn: 96768 // for a week
+            expiresIn: 96768, // for a week
           });
           res.json({
             status: true,
-            token
+            token,
           });
         }
       });
@@ -113,7 +113,7 @@ router.put("/confirm-user", (req, res) => {
     if (err) throw err;
     if (user.confirmationNumber == confirmationNumber) {
       const promise = User.findByIdAndUpdate(user.id, {
-        confirmed: true
+        confirmed: true,
       });
       promise
         .then((user) => {
@@ -134,7 +134,7 @@ router.put("/confirm-user", (req, res) => {
           mail(email, "Account confirmation", emailBody);
           res.json({
             status: true,
-            message: "Your accound was successfully created"
+            message: "Your accound was successfully created",
           });
         })
         .catch((err) => {
@@ -167,7 +167,7 @@ router.put("/request-password", (req, res) => {
       mail(email, "Password Forget", emailBody);
 
       const promise = User.findByIdAndUpdate(user.id, {
-        confirmationNumber: confirmNum
+        confirmationNumber: confirmNum,
       });
       promise
         .then((user) => {
@@ -176,7 +176,7 @@ router.put("/request-password", (req, res) => {
           }
           res.json({
             status: true,
-            message: "The user confirmation number was sent successfully"
+            message: "The user confirmation number was sent successfully",
           });
         })
         .catch((err) => {
@@ -195,7 +195,7 @@ router.put("/change-password", (req, res) => {
   if (!password || !repeat_password || password != repeat_password) {
     res.json({
       status: false,
-      message: "Password and Repeat password does not match."
+      message: "Password and Repeat password does not match.",
     });
   } else {
     // check for user, if user exists in db
@@ -219,7 +219,7 @@ router.put("/change-password", (req, res) => {
             bcrypt.hash(password, 10).then((hash) => {
               // update in db
               const promise = User.findByIdAndUpdate(user.id, {
-                password: hash
+                password: hash,
               });
               promise
                 .then((user) => {
@@ -228,7 +228,7 @@ router.put("/change-password", (req, res) => {
                   }
                   res.json({
                     status: true,
-                    message: "Password was changed."
+                    message: "Password was changed.",
                   });
                 })
                 .catch((err) => {
@@ -241,7 +241,7 @@ router.put("/change-password", (req, res) => {
         } else {
           res.json({
             status: false,
-            message: "Password and repeat_password does not match"
+            message: "Password and repeat_password does not match",
           });
         }
       } else {
@@ -249,6 +249,23 @@ router.put("/change-password", (req, res) => {
       }
     });
   }
+});
+
+// get user info
+router.get("/me", (req, res) => {
+  const { token } = req.body;
+
+  jwt.verify(token, req.app.get("api_secret_key"), (err, decoded) => {
+    if (err) res.json({ status: false, message: "token is expired" });
+    const { email } = decoded;
+
+    // get user from database
+    User.findOne({ email }, (err, user) => {
+      if (err) throw err;
+      const { fullname, email } = user;
+      res.json({ status: true, fullname, email });
+    });
+  });
 });
 
 module.exports = router;

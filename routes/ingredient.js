@@ -1,5 +1,5 @@
 const express = require("express");
-const fetch = require("node-fetch");
+// const fetch = require("node-fetch");
 const router = express.Router();
 require("dotenv").config();
 
@@ -19,10 +19,10 @@ router.get("/list-all-ingredients", (req, res, next) => {
     }
   };
 
-  fetch(url, options)
-    .then((res) => res.json())
-    .then((json) => console.log(json))
-    .catch((err) => console.error("error:" + err));
+  // fetch(url, options)
+  //   .then((res) => res.json())
+  //   .then((json) => console.log(json))
+  //   .catch((err) => console.error("error:" + err));
 });
 
 module.exports = router;
