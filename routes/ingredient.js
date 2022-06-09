@@ -1,5 +1,5 @@
 const express = require("express");
-// const fetch = require("node-fetch");
+const axios = require("axios");
 const router = express.Router();
 require("dotenv").config();
 
@@ -9,20 +9,7 @@ const ingredientApiKey = process.env.INGREDIENT_API_KEY;
 
 /* GET */
 router.get("/list-all-ingredients", (req, res, next) => {
-  const url = `${ingredientApiURI}`;
-
-  const options = {
-    method: "GET",
-    headers: {
-      "X-RapidAPI-Host": `${ingredientApiHost}`,
-      "X-RapidAPI-Key": `${ingredientApiKey}`
-    }
-  };
-
-  // fetch(url, options)
-  //   .then((res) => res.json())
-  //   .then((json) => console.log(json))
-  //   .catch((err) => console.error("error:" + err));
+  res.json({ status: true, message: "nothing found"})
 });
 
 module.exports = router;

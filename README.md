@@ -25,3 +25,8 @@
 | /auth/api/v1/posts/ | `GET` | Empty | List all posts. |
 | /auth/api/v1/posts/new | `POST` | {'email':'foo', postHeader:'bar', postDescription:'some description'} | Share a post. |
 | /auth/api/v1/posts/user/:email | `GET` | Epmty | Get posts of a user. |
+
+## Ingredients
+| Route | HTTP Verb	 | POST body	 | Description	 |
+| --- | --- | --- | --- |
+| /auth/api/v1/ingredients/list-all-ingrediens | `GET` | Empty | Lists all the ingredients. |
