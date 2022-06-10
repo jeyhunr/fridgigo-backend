@@ -39,7 +39,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/api/v1/contents', contentsRouter);
 app.use('/auth/', verifyToken); // middleware
-app.use('/api/v1/users', cors(corsOptions), usersRouter);
+app.use('/api/v1/users', cors(corsOptions), usersRouter); // ? => /auth/ 
 app.use('/auth/api/v1/posts', postRouter);
 app.use('/auth/api/v1/ingredients', ingredientRouter);
 

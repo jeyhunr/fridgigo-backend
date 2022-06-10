@@ -9,6 +9,9 @@ const User = require("../models/User");
 /* import jwt */
 const jwt = require("jsonwebtoken");
 
+/* import jwt verify */
+const verifyJWT = require("../middleware/verify-jwt");
+
 /* user register */
 router.post("/register", (req, res, next) => {
   const { fullname, email, password, repeat_password } = req.body;
@@ -254,18 +257,41 @@ router.put("/change-password", (req, res) => {
 // get user info
 router.get("/me", (req, res) => {
   const { token } = req.body;
+  const { email } = verifyJWT(req, token);
 
-  jwt.verify(token, req.app.get("api_secret_key"), (err, decoded) => {
-    if (err) res.json({ status: false, message: "token is expired" });
-    const { email } = decoded;
-
-    // get user from database
-    User.findOne({ email }, (err, user) => {
-      if (err) throw err;
-      const { fullname, email } = user;
-      res.json({ status: true, fullname, email });
-    });
+  if (!email) res.json({ status: false, message: "user not fount" });
+  // get user from database
+  User.findOne({ email }, (err, user) => {
+    if (err) throw err;
+    const { email, fullname, following } = user;
+    res.json({ status: true, email, fullname, following });
   });
 });
+
+// follow user
+router.put("/follow-user", (req, res) => {
+  const { token, targetEmail } = req.body;
+  const { email } = verifyJWT(req, token);
+  // cheking for error
+  if (!email) res.json({ status: false, message: "user not found" });
+  User.update({ email }, { $push: { following: targetEmail } }, () =>
+    res.json({ status: true, message: "user updated" })
+  );
+});
+
+// unfollow user
+router.put("/unfollow-user", (req, res) => {
+  const { token, targetEmail } = req.body;
+  const { email } = verifyJWT(req, token);
+
+  // cheking for error
+  if (!email) res.json({ status: false, message: "user not found" });
+  User.update({ email }, { $pull: { following: targetEmail } }, () =>
+    res.json({ status: true, message: "user updated" })
+  );
+});
+
+const unFollowUser = () => {
+}
 
 module.exports = router;

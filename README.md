@@ -17,6 +17,7 @@
 | /api/v1/users/request-password/ | `PUT` | {'email':'foo'} | Password forget. |
 | /api/v1/users/change-password/ | `PUT` | {'email':'foo', 'password':'bar', 'repeat_password':'bar', 'confirmationNumber':'foo'} | Password forget. |
 | /api/v1/users/me/ | `GET` | {'token':'foo'} | Get my information. |
+| /auth/api/v1/users/follow-user/ | `PUT` | {'token':'foo', 'targetEmail':'bar'} | Follow user. |
 
 
 ## Posts
