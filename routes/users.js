@@ -259,39 +259,48 @@ router.get("/me", (req, res) => {
   const { token } = req.body;
   const { email } = verifyJWT(req, token);
 
-  if (!email) res.json({ status: false, message: "user not fount" });
-  // get user from database
-  User.findOne({ email }, (err, user) => {
-    if (err) throw err;
-    const { email, fullname, following } = user;
-    res.json({ status: true, email, fullname, following });
-  });
+  if (!email) {
+    res.json({ status: false, message: "user not fount" });
+  } else {
+    // get user from database
+    User.findOne({ email }, (err, user) => {
+      if (err) throw err;
+      const { email, fullname, following } = user;
+      res.json({ status: true, email, fullname, following });
+    });
+  }
 });
 
 // follow user
 router.put("/follow-user", (req, res) => {
-  const { token, targetEmail } = req.body;
-  const { email } = verifyJWT(req, token);
-  // cheking for error
-  if (!email) res.json({ status: false, message: "user not found" });
-  User.update({ email }, { $push: { following: targetEmail } }, () =>
-    res.json({ status: true, message: "user updated" })
-  );
+  unFollowUser(req, res, "push");
 });
 
 // unfollow user
 router.put("/unfollow-user", (req, res) => {
+  unFollowUser(req, res, "pull");
+});
+
+const unFollowUser = (req, res, condition) => {
   const { token, targetEmail } = req.body;
   const { email } = verifyJWT(req, token);
 
-  // cheking for error
-  if (!email) res.json({ status: false, message: "user not found" });
-  User.update({ email }, { $pull: { following: targetEmail } }, () =>
-    res.json({ status: true, message: "user updated" })
-  );
-});
+  const resObj = { status: true, message: "user updated" };
 
-const unFollowUser = () => {
-}
+  // cheking for error
+  if (!email) {
+    res.json({ status: false, message: "user not found" });
+  }
+
+  if (condition == "pull") {
+    User.update({ email }, { $pull: { following: targetEmail } }, () => {
+      res.json(resObj);
+    });
+  } else {
+    User.update({ email }, { $push: { following: targetEmail } }, () => {
+      res.json(resObj);
+    });
+  }
+};
 
 module.exports = router;
