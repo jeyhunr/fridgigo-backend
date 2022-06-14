@@ -31,3 +31,12 @@
 | Route | HTTP Verb	 | POST body	 | Description	 |
 | --- | --- | --- | --- |
 | /auth/api/v1/ingredients/list-all-ingrediens | `GET` | Empty | Lists all the ingredients. |
+
+<hr />
+
+`I used the following packages in this project:`
+
+- JWT  => *for generating token user*
+- Mongoose
+- Chai
+- Mocha
