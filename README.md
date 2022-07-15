@@ -30,5 +30,18 @@
 ## Ingredients
 | Route | HTTP Verb	 | POST body	 | Description	 |
 | --- | --- | --- | --- |
+<<<<<<< HEAD
 | /auth/api/v1/ingredients/list-all-ingredients | `GET` | Empty | Lists all the ingredients. |
 | /auth/api/v1/ingredients/insert-ingredient | `POST` | {"token":"foo","header":"bar", body:{i1,i2,i3}} | Insert ingredients into db. |
+=======
+| /auth/api/v1/ingredients/list-all-ingrediens | `GET` | Empty | Lists all the ingredients. |
+
+<hr />
+
+`I used the following packages in this project:`
+
+- JWT  => *for generating token user*
+- Mongoose
+- Chai
+- Mocha
+>>>>>>> d8fd0ed85a344371d4f26451035aab11e6869322
