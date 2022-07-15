@@ -1,15 +1,38 @@
 const express = require("express");
-const axios = require("axios");
+const Ingredient = require("../models/Ingredient");
 const router = express.Router();
-require("dotenv").config();
-
-const ingredientApiURI = process.env.INGREDIENT_API_URI;
-const ingredientApiHost = process.env.INGREDIENT_API_HOST;
-const ingredientApiKey = process.env.INGREDIENT_API_KEY;
 
 /* GET */
 router.get("/list-all-ingredients", (req, res, next) => {
-  res.json({ status: true, message: "nothing found"})
+  const promise = Ingredient.find({});
+  promise
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
+/**
+ * POST
+ * save ingredients
+ */
+router.post("/insert-ingredient", (req, res, next) => {
+  const { header, body } = req.body;
+  // insert into db
+  const ingredient = new Ingredient({
+    header: header,
+    body: body
+  });
+  const promise = ingredient.save();
+  promise
+    .then((data) => {
+      res.json({ status: true, "status-code": res.statusCode });
+    })
+    .catch((err) => {
+      res.json(err);
+    });
 });
 
 module.exports = router;

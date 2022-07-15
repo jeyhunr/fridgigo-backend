@@ -30,4 +30,5 @@
 ## Ingredients
 | Route | HTTP Verb	 | POST body	 | Description	 |
 | --- | --- | --- | --- |
-| /auth/api/v1/ingredients/list-all-ingrediens | `GET` | Empty | Lists all the ingredients. |
+| /auth/api/v1/ingredients/list-all-ingredients | `GET` | Empty | Lists all the ingredients. |
+| /auth/api/v1/ingredients/insert-ingredient | `POST` | {"token":"foo","header":"bar", body:{i1,i2,i3}} | Insert ingredients into db. |
