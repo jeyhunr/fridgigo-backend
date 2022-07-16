@@ -27,11 +27,11 @@
 | /auth/api/v1/posts/new | `POST` | {'email':'foo', postHeader:'bar', postDescription:'some description'} | Share a post. |
 | /auth/api/v1/posts/user/:email | `GET` | Epmty | Get posts of a user. |
 
-## Ingredients
+## Recipe
 | Route | HTTP Verb	 | POST body	 | Description	 |
 | --- | --- | --- | --- |
-| /auth/api/v1/ingredients/list-all-ingredients | `GET` | Empty | Lists all the ingredients. |
-| /auth/api/v1/ingredients/insert-ingredient | `POST` | {"token":"foo","header":"bar", body:{i1,i2,i3}} | Insert ingredients into db. |
+| /auth/api/v1/ingredients/list-all-recipes | `GET` | {"token": "foo"} | Lists all recipes. |
+| /auth/api/v1/ingredients/add-recipe | `POST` | {"token":"foo","header":"bar", body:{i1,i2,i3}} | Insert recipe into db. |
 
 <hr />
 

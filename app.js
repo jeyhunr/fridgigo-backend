@@ -10,7 +10,7 @@ const usersRouter = require('./routes/users');
 const contentsRouter = require('./routes/contents');
 const verifyToken = require('./middleware/verify-token');
 const postRouter = require('./routes/posts');
-const ingredientRouter = require('./routes/ingredient');
+const recipeRouter = require('./routes/recipe');
 
 const app = express();
 
@@ -41,7 +41,7 @@ app.use('/api/v1/contents', contentsRouter);
 app.use('/auth/', verifyToken); // middleware
 app.use('/api/v1/users', cors(corsOptions), usersRouter); // ? => /auth/ 
 app.use('/auth/api/v1/posts', postRouter);
-app.use('/auth/api/v1/ingredients', ingredientRouter);
+app.use('/auth/api/v1/recipes', recipeRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

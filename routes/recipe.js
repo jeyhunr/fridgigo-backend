@@ -1,10 +1,10 @@
 const express = require("express");
-const Ingredient = require("../models/Ingredient");
+const Recipe = require("../models/Recipe");
 const router = express.Router();
 
 /* GET */
-router.get("/list-all-ingredients", (req, res, next) => {
-  const promise = Ingredient.find({});
+router.get("/list-all-recipes", (req, res, next) => {
+  const promise = Recipe.find({});
   promise
     .then((data) => {
       res.json(data);
@@ -16,16 +16,18 @@ router.get("/list-all-ingredients", (req, res, next) => {
 
 /**
  * POST
- * save ingredients
+ * save recipess
  */
-router.post("/insert-ingredient", (req, res, next) => {
-  const { header, body } = req.body;
+router.post("/add-recipe", (req, res, next) => {
+  const { title,  ingredients, steps } = req.body;
   // insert into db
-  const ingredient = new Ingredient({
-    header: header,
-    body: body
+  const recipe = new Recipe({
+    title: title,
+    ingredients: ingredients,
+    steps: steps
   });
-  const promise = ingredient.save();
+  
+  const promise = recipe.save();
   promise
     .then((data) => {
       res.json({ status: true, "status-code": res.statusCode });
