@@ -10,6 +10,7 @@ const RecipeSchema = new Schema({
     type: String,
     required: true
   },
+  category: String,
   ingredients: [{ type: String }],
   steps: [StepSchema]
 });

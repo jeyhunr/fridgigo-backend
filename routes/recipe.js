@@ -19,10 +19,11 @@ router.get("/list-all-recipes", (req, res, next) => {
  * save recipess
  */
 router.post("/add-recipe", (req, res, next) => {
-  const { title,  ingredients, steps } = req.body;
+  const { title,  ingredients, steps, category } = req.body;
   // insert into db
   const recipe = new Recipe({
     title: title,
+    category: category,
     ingredients: ingredients,
     steps: steps
   });
