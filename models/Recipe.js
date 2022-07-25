@@ -11,6 +11,9 @@ const RecipeSchema = new Schema({
     required: true
   },
   category: String,
+  preparation_time: Number,
+  cooking_time: Number,
+  servings: Number, 
   ingredients: [{ type: String }],
   steps: [StepSchema]
 });
