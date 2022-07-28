@@ -30,8 +30,8 @@
 ## Recipe
 | Route | HTTP Verb	 | POST body	 | Description	 |
 | --- | --- | --- | --- |
-| /auth/api/v1/ingredients/list-all-recipes | `GET` | {"token": "foo"} | Lists all recipes. |
-| /auth/api/v1/ingredients/add-recipe | `POST` | {"token":"foo","header":"bar", body:{i1,i2,i3}} | Insert recipe into db. |
+| /auth/api/v1/recipes/list-all-recipes | `GET` | {"token": "foo"} | Lists all recipes. |
+| /auth/api/v1/recipes/add-recipe | `POST` | {"token":"foo" ...} | Insert recipe into db. |
 
 <hr />
 

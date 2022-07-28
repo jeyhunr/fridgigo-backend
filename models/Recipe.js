@@ -5,16 +5,31 @@ const StepSchema = new Schema({
   text: String
 });
 
+const IngredientSchema = new Schema({
+  count: Number,
+  increment: Number,
+  meauser: String, // objectid from measure
+  description: String
+});
+
+const NutritionFactsSchema = new Schema({
+  cal: Number,
+  carbs: Number,
+  protein: Number,
+  fat: Number
+});
+
 const RecipeSchema = new Schema({
   title: {
     type: String,
     required: true
   },
-  category: String,
+  category: Schema.Types.ObjectId,
   preparation_time: Number,
   cooking_time: Number,
   servings: Number, 
-  ingredients: [{ type: String }],
+  ingredients: [IngredientSchema],
+  nutrition_facts: [NutritionFactsSchema],
   steps: [StepSchema]
 });
 

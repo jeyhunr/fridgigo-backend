@@ -11,6 +11,7 @@ const contentsRouter = require('./routes/contents');
 const verifyToken = require('./middleware/verify-token');
 const postRouter = require('./routes/posts');
 const recipeRouter = require('./routes/recipe');
+const measureRouter = require('./routes/measure');
 
 const app = express();
 
@@ -42,6 +43,7 @@ app.use('/auth/', verifyToken); // middleware
 app.use('/api/v1/users', cors(corsOptions), usersRouter); // ? => /auth/ 
 app.use('/auth/api/v1/posts', postRouter);
 app.use('/auth/api/v1/recipes', recipeRouter);
+app.use('/auth/api/v1/measures', measureRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
