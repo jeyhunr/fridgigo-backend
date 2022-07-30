@@ -5,10 +5,18 @@ const StepSchema = new Schema({
   text: String
 });
 
+const MeasureSchema = new Schema({
+  title: String,
+});
+
 const IngredientSchema = new Schema({
+  title: {
+    type: String,
+    required: true
+  },
   count: Number,
   increment: Number,
-  meauser: String, // objectid from measure
+  measure: MeasureSchema, 
   description: String
 });
 
@@ -19,17 +27,18 @@ const NutritionFactsSchema = new Schema({
   fat: Number
 });
 
+
 const RecipeSchema = new Schema({
   title: {
     type: String,
     required: true
   },
-  category: Schema.Types.ObjectId,
+  category: String,
   preparation_time: Number,
   cooking_time: Number,
   servings: Number, 
   ingredients: [IngredientSchema],
-  nutrition_facts: [NutritionFactsSchema],
+  nutrition_facts: NutritionFactsSchema,
   steps: [StepSchema]
 });
 
