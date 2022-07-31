@@ -10,10 +10,7 @@ const MeasureSchema = new Schema({
 });
 
 const IngredientSchema = new Schema({
-  title: {
-    type: String,
-    required: true
-  },
+  title: [{ type: String }],
   count: Number,
   increment: Number,
   measure: MeasureSchema, 
