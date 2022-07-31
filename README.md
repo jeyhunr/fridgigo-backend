@@ -32,6 +32,8 @@
 | --- | --- | --- | --- |
 | /auth/api/v1/recipes/list-all-recipes | `GET` | {"token": "foo"} | Lists all recipes. |
 | /auth/api/v1/recipes/add-recipe | `POST` | {"token":"foo" ...} | Insert recipe into db. |
+| /auth/api/v1/recipes/get-recipes | `GET` | {"token":"foo" } | List recipe titles. |
+| /auth/api/v1/recipes/get-recipe/:recipeID | `GET` | {"token":"foo" } | Get entered recipe. |
 
 <hr />
 
